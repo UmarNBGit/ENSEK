@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "b76a2c13-b1e4-42f3-9a05-363c7b27bb95",
+		"name": "ENSEK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4226846"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AccessToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/login?username=test&password=testing",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "test"
+						},
+						{
+							"key": "password",
+							"value": "testing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest_EnergyQuantities",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Rest Energy Quantity\", function () {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.exist.and.to.be.an('object');",
+							"  pm.expect(responseJson.message).to.exist.and.to.be.a('string');",
+							"  console.log(responseJson.message);",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is within acceptable range\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{AccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/reset?username=test&password=testing",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"reset"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "test"
+						},
+						{
+							"key": "password",
+							"value": "testing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListOfEnergies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Response time is within acceptable range\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"pm.test(\"Electric object in the response should exist\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.electric).to.exist.and.to.be.an('object');",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Gas object should exist in the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.gas).to.exist.and.to.be.an('object'); ",
+							"});",
+							"",
+							"pm.test(\"Validate the 'nuclear' object in the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.nuclear).to.exist.and.to.be.an('object');",
+							"});",
+							"",
+							"pm.test(\"Oil object should exist in the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.oil).to.exist.and.to.be.an('object');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/energy",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"energy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy_Gas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"const responseJson = pm.response.json();",
+							"const result = \"Gas order has been created\"+ \" --- \" + responseJson.message;",
+							"",
+							"pm.test(result , function () {",
+							"  pm.expect(responseJson).to.exist.and.to.be.an('object');",
+							"  pm.expect(responseJson.message).to.exist.and.to.be.a('string');",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is within acceptable range\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/buy/1/40",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"buy",
+						"1",
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const moment = require('moment');",
+							"pm.environment.set(\"currentDateTime\", moment().format(\"dddd, Do MMMM yyyy, h:mm:ss a\" ));",
+							"const currentTime = pm.environment.get(\"currentDateTime\");",
+							"",
+							"const responseJson = pm.response.json();",
+							"",
+							"for (let i=0; i < responseJson.length; i++)",
+							"{",
+							"    if (responseJson[i].fuel === 'gas' && responseJson[i].quantity === 40 ){",
+							"       console.log(responseJson[i].id);",
+							"       const result = \"Gas Order created on \"+ \" - \" + currentTime +\" - \" +  \"ID : \"+ \"\" + responseJson[i].id;",
+							"",
+							"       pm.test(result, function () {",
+							"           pm.environment.set(\"currentDateTime\", moment().format());",
+							"           pm.expect(pm.environment.get(\"currentDateTime\")).to.exist.and.to.be.a('string');",
+							"           pm.response.to.have.status(200);",
+							"       });",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Response time is within acceptable range\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "response.time",
+			"value": ""
+		},
+		{
+			"key": "AccessToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
